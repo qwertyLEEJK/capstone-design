@@ -18,8 +18,8 @@ class MyApp extends StatelessWidget {
       home: Scaffold(
         body: CampusMapScreen(),
         bottomNavigationBar: BottomNavBar(
-          navigating: false, // 초기값 설정
-          onStopNavigation: () {}, // 기본 콜백 (필요하면 수정)
+          navigating: false,
+          onStopNavigation: () {},
         ),
       ),
     );
