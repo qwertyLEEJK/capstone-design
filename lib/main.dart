@@ -10,32 +10,76 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        home:Scaffold(
-          appBar: AppBar(
-            leading: Icon(Icons.star),
-            title: Text('앱제목', style: TextStyle(color: Colors.white),),
-            backgroundColor: Colors.blue,
-
-          ),
-          body: SizedBox(
-            child: TextButton(onPressed: (){},
-                child: Icon(Icons.star),),
-
-          ),
-          bottomNavigationBar: BottomAppBar(
-            child: Container(
-              height: 500,
+      home: Scaffold(
+        body: SizedBox(
+          child: Image.asset('images/123.jpg'),
+        ),
+        bottomNavigationBar: BottomAppBar(
+          height: 80,
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+            ),
+            height: 60,
+            padding: const EdgeInsets.all(10),
+            alignment: Alignment.center,
+            child: SizedBox(
+              width: double.infinity,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween ,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Icon(Icons.phone),
-                  Icon(Icons.message),
-                  Icon(Icons.contact_page),
+                  Flexible(
+                    flex: 3,
+                    child: Column(
+                      children: [
+                        Icon(Icons.location_on_outlined, size: 17,),
+                        Text('주변', style: TextStyle(fontFamily: 'Pretendard', fontWeight: FontWeight.w400, fontSize: 10),),
+                      ],
+                    ),
+                  ),
+                  Flexible(
+                    flex: 3,
+                    child: Column(
+                      children: [
+                        Icon(Icons.star_border, size: 17,),
+                        Text('저장', style: TextStyle(fontFamily: 'Pretendard', fontWeight: FontWeight.w400, fontSize: 10),),
+                      ],
+                    ),
+                  ),
+                  Flexible(
+                    flex: 3,
+                    child: Column(
+                      children: [
+                        Icon(Icons.directions_bus_filled_outlined, size: 17,),
+                        Text('대중교통', style: TextStyle(fontFamily: 'Pretendard', fontWeight: FontWeight.w400, fontSize: 10),),
+                      ],
+                    ),
+                  ),
+                  Flexible(
+                    flex: 3,
+                    child: Column(
+                      children: [
+                        Icon(Icons.directions_car_filled_outlined, size: 17,),
+                        Text('내비게이션', style: TextStyle(fontFamily: 'Pretendard', fontWeight: FontWeight.w400, fontSize: 10),),
+                      ],
+                    ),
+                  ),
+                  Flexible(
+                    flex: 3,
+                    child: Column(
+                      children: [
+                        Icon(Icons.account_circle_outlined, size: 17,),
+                        Text('내 정보', style: TextStyle(fontFamily: 'Pretendard', fontWeight: FontWeight.w400, fontSize: 10),),
+                      ],
+                    ),
+                  ),
                 ],
               ),
-            )
+            ),
           ),
-        )
+        ),
+      ),
     );
   }
 }
