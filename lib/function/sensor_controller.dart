@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-class SensorData{
+class SensorData {
   double x;
   double y;
   double z;
@@ -12,9 +12,9 @@ class SensorData{
 }
 
 class SensorController extends GetxController {
-  var accelerometer = SensorData(0, 0, 0).obs; //가속센서
-  var magnetometer = SensorData(0, 0, 0).obs; //지자기센서
-  var direction = 0.0.obs; //방향센서
+  var accelerometer = SensorData(0, 0, 0).obs; // 가속센서
+  var magnetometer = SensorData(0, 0, 0).obs;  // 지자기센서
+  var direction = 0.0.obs;                      // 방향센서
 
   void updateAccelerometer(double x, double y, double z) {
     accelerometer.value = SensorData(x, y, z);
@@ -24,7 +24,18 @@ class SensorController extends GetxController {
     magnetometer.value = SensorData(x, y, z);
   }
 
-  void updateDirection(double heading) {
+  // pitch와 roll도 같이 업데이트하는 메서드
+  void updateDirection(double heading, double pitch, double roll) {
     direction.value = heading;
+    // 기존 accelerometer 객체를 복사해 pitch, roll, heading 반영
+    final current = accelerometer.value;
+    accelerometer.value = SensorData(
+      current.x,
+      current.y,
+      current.z,
+      pitch: pitch,
+      roll: roll,
+      heading: heading,
+    );
   }
 }
