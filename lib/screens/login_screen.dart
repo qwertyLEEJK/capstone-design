@@ -33,9 +33,9 @@ class LoginScreen extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                CircleLoginButton(asset: 'assets/naver.png'),
-                CircleLoginButton(asset: 'assets/kakao.png'),
-                CircleLoginButton(asset: 'assets/google.png'),
+                CircleLoginButton(asset: 'assets/images/naver.png'),
+                CircleLoginButton(asset: 'assets/images/kakao.png'),
+                CircleLoginButton(asset: 'assets/images/google.png'),
               ],
             ),
             const SizedBox(height: 40),

@@ -30,6 +30,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  sensors_plus: ^3.0.0
+  get: ^4.6.5
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -58,7 +60,7 @@ flutter:
         - asset: assets/fonts/Pretendard-SemiBold.otf
         - asset: assets/fonts/Pretendard-Regular.otf
   assets:
-    - assets/
+    - assets/images/
 
 
   # The following line ensures that the Material Icons font is
