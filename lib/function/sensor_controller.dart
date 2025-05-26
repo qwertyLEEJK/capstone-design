@@ -1,41 +1,99 @@
+import 'dart:async';
+import 'dart:math';
+
 import 'package:get/get.dart';
+import 'package:sensors_plus/sensors_plus.dart';
+import 'package:flutter_compass/flutter_compass.dart';
 
 class SensorData {
-  double x;
-  double y;
-  double z;
-  double pitch;
-  double roll;
-  double heading;
+  double x, y, z;
+  double pitch, roll, heading;
 
-  SensorData(this.x, this.y, this.z, {this.pitch = 0.0, this.roll = 0.0, this.heading = 0.0});
+  SensorData(
+    this.x,
+    this.y,
+    this.z, {
+    this.pitch = 0.0,
+    this.roll = 0.0,
+    this.heading = 0.0,
+  });
 }
 
 class SensorController extends GetxController {
-  var accelerometer = SensorData(0, 0, 0).obs; // 가속센서
-  var magnetometer = SensorData(0, 0, 0).obs;  // 지자기센서
-  var direction = 0.0.obs;                      // 방향센서
+  var accelerometer = SensorData(0, 0, 0).obs;
+  var magnetometer = SensorData(0, 0, 0).obs;
+  var gyroscope = SensorData(0, 0, 0).obs;
+  var direction = 0.0.obs;
 
-  void updateAccelerometer(double x, double y, double z) {
-    accelerometer.value = SensorData(x, y, z);
+  late StreamSubscription<AccelerometerEvent> _accelSub;
+  late StreamSubscription<MagnetometerEvent> _magSub;
+  late StreamSubscription<GyroscopeEvent> _gyroSub;
+  late StreamSubscription<CompassEvent> _compassSub;
+
+  @override
+  void onInit() {
+    super.onInit();
+
+    _accelSub = accelerometerEvents.listen((event) {
+      accelerometer.update((data) {
+        if (data != null) {
+          data.x = event.x;
+          data.y = event.y;
+          data.z = event.z;
+        }
+      });
+      _updatePitchRoll(event.x, event.y, event.z);
+    });
+
+    _magSub = magnetometerEvents.listen((event) {
+      magnetometer.update((data) {
+        if (data != null) {
+          data.x = event.x;
+          data.y = event.y;
+          data.z = event.z;
+        }
+      });
+    });
+
+    _gyroSub = gyroscopeEvents.listen((event) {
+      gyroscope.update((data) {
+        if (data != null) {
+          data.x = event.x;
+          data.y = event.y;
+          data.z = event.z;
+        }
+      });
+    });
+
+    _compassSub = FlutterCompass.events!.listen((event) {
+      final headingVal = event.heading ?? 0;
+      direction.value = headingVal;
+      accelerometer.update((data) {
+        if (data != null) {
+          data.heading = headingVal;
+        }
+      });
+    });
   }
 
-  void updateMagnetometer(double x, double y, double z) {
-    magnetometer.value = SensorData(x, y, z);
+  @override
+  void onClose() {
+    _accelSub.cancel();
+    _magSub.cancel();
+    _gyroSub.cancel();
+    _compassSub.cancel();
+    super.onClose();
   }
 
-  // pitch와 roll도 같이 업데이트하는 메서드
-  void updateDirection(double heading, double pitch, double roll) {
-    direction.value = heading;
-    // 기존 accelerometer 객체를 복사해 pitch, roll, heading 반영
-    final current = accelerometer.value;
-    accelerometer.value = SensorData(
-      current.x,
-      current.y,
-      current.z,
-      pitch: pitch,
-      roll: roll,
-      heading: heading,
-    );
+  // Pitch, Roll 계산 (단위: 라디안)
+  void _updatePitchRoll(double ax, double ay, double az) {
+    final pitch = atan2(-ax, sqrt(ay * ay + az * az));
+    final roll = atan2(ay, az);
+    accelerometer.update((data) {
+      if (data != null) {
+        data.pitch = pitch;
+        data.roll = roll;
+      }
+    });
   }
 }

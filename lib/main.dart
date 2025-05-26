@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(useMaterial3: true),
       home: Scaffold(
-        body: Sensor_test(),
+        body: SensorTest(),
         bottomNavigationBar: BottomNavBar(
           navigating: false,
           onStopNavigation: () {},
