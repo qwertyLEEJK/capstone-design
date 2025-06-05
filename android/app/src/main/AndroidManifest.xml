@@ -42,4 +42,8 @@
             <data android:mimeType="text/plain"/>
         </intent>
     </queries>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <meta-data
+    android:name="com.kakao.sdk.AppKey"
+    android:value="ea75f6b5efca4d355f8e6b10f4ff5b7e"/>
 </manifest>
